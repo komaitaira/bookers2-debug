@@ -16,6 +16,12 @@
 @import "bootstrap-sprockets";  /*ここを追加*/
 @import "bootstrap";            /*ここを追加*/
 
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 header {
 	color:white;
 }
@@ -25,10 +31,18 @@ header .navbar-left span {
 	padding-top: 10px;
 }
 
+.navbar {
+    margin-bottom: 20px;
+}
+
 body {
 	margin-top: 40px;
 }
 
 .actions {
 	margin-top:10px;
+}
+
+#notice {
+    margin: 0 0 10px;
 }
