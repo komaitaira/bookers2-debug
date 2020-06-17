@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!
+  before_action :correct_user, only: [:edit, :update]
 
   def show
   	@book = Book.find(params[:id])
@@ -8,11 +9,13 @@ class BooksController < ApplicationController
   end
 
   def index
+    @user = current_user
     @book = Book.new
   	@books = Book.all #一覧表示するためにBookモデルの情報を全てくださいのall
   end
 
   def create
+    @user = current_user
   	@book = Book.new(book_params) #Bookモデルのテーブルを使用しているのでbookコントローラで保存する。
   	@book.user_id = current_user.id
     if @book.save #入力されたデータをdbに保存する。
@@ -48,6 +51,14 @@ class BooksController < ApplicationController
 
   def book_params
   	params.require(:book).permit(:title, :body)
+  end
+
+  #url直接防止　メソッドを自己定義してbefore_actionで発動。
+  def correct_user
+    book = Book.find(params[:id])
+    if book.user_id != current_user.id
+      redirect_to books_path
+    end
   end
 
 end
