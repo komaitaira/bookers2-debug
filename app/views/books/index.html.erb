@@ -60,6 +60,11 @@
 								</td>
 							<% end %>
 						</span>
+						<span class="comment">
+							<td>
+								<%= link_to "コメント数: #{book.book_comments.count}", book_path(book.id) %>
+							</td>
+						</span>
 					</tr>
 				<% end %>
 			</tbody>
