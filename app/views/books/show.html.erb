@@ -14,21 +14,38 @@
 		<h2>Book detail</h2>
 
 		<table class="table">
-				<tr>
-					<td>
-						<%= link_to (@book.user) do %>
-						<%= attachment_image_tag(@book.user, :profile_image, size: '50x50', fallback: "no-image-mini.jpg") %><br>
-						<%= @book.user.name %>
-						<% end %>
-					</td>
-					<td><%= link_to @book.title, @book %></td>
-					<td><%= @book.body %></td>
-					<% if @user.id == current_user.id %>
-					  <td><%= link_to "Edit",edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
-					  <td><%= link_to "Destroy",@book, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
-					  <% end %>
-				</tr>
-			</table>
+			<tr>
+				<td>
+					<%= link_to (@book.user) do %>
+					<%= attachment_image_tag(@book.user, :profile_image, size: '50x50', fallback: "no-image-mini.jpg") %><br>
+					<%= @book.user.name %>
+					<% end %>
+				</td>
+				<td><%= link_to @book.title, @book %></td>
+				<td><%= @book.body %></td>
+				<span class="like">
+					<% if @book.favorited_by?(current_user) %>
+						<td>
+							<%= link_to book_favorites_path(@book.id), method: :delete do %>
+								<%= content_tag :span, "", class: "glyphicon glyphicon-heart" %>
+								<%= @book.favorites.count %>
+							<% end %>
+						</td>
+					<% else %>
+						<td>
+							<%= link_to book_favorites_path(@book.id), method: :post do %>
+								<%= content_tag :span, "", class: "glyphicon glyphicon-heart-empty" %>
+								<%= @book.favorites.count %>
+							<% end %>
+						</td>
+					<% end %>
+				</span>
+				<% if @user.id == current_user.id %>
+					<td><%= link_to "Edit",edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
+					<td><%= link_to "Destroy",@book, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
+				<% end %>
+			</tr>
+		</table>
 
 	</div>
 </div>
