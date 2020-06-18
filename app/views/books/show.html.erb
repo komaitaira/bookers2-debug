@@ -40,13 +40,39 @@
 						</td>
 					<% end %>
 				</span>
+				<span class="comment">
+					<td>
+						<p>コメント数: <%= @book.book_comments.count %></p>
+					</td>
+				</span>
 				<% if @user.id == current_user.id %>
 					<td><%= link_to "Edit",edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
 					<td><%= link_to "Destroy",@book, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
 				<% end %>
 			</tr>
 		</table>
-
+		<table class="table">
+			<thead>
+				<th>Comment</th>
+			</thead>
+			<% @book.book_comments.each do |book_comment| %>
+				<tbody>							
+					<td>
+						<%= attachment_image_tag(book_comment.user, :profile_image, size: '50x50', fallback: "no-image-mini.jpg") %><br>
+						<%= book_comment.user.name %>
+					</td>
+					<td><%= book_comment.comment %></td>
+					<% if book_comment.user == current_user %>
+						<td><%= link_to "Destroy", book_book_comments_path(book_comment.book, book_comment), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
+					<% end %>
+				</tbody>
+			<% end %>
+		</table>
+		<%= form_for [@book, @book_comment] do |f| %>
+			<%= f.label "comment" %>
+			<%= f.text_area :comment %>
+			<%= f.submit "送信" %>
+		<% end %>
 	</div>
 </div>
 
