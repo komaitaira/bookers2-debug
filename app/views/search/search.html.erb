@@ -1,0 +1,30 @@
+<h2><%= @model %> search for <%= @content %></h2>
+<table class="table table-hover table-inverse">
+    <thead>
+        <tr>
+            <th>image</th>
+            <th>name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if @model == "user" %>
+            <% @datas.each do |data| %>
+                <tr>
+                    <td><%= attachment_image_tag(data, :profile_image, size: '50x50', fallback: "no-image-mini.jpg") %></td>
+                    <td><%= data.name %></td>
+                    <td><%= link_to "Show", user_path(data.id) %></td>
+                </tr>
+            <% end %>
+        <% elsif @model == "book" %>
+            <% @datas.each do |data| %>
+                <tr>
+                    <td><%= attachment_image_tag(data.user, :profile_image, size: '50x50', fallback: "no-image-mini.jpg") %></td>
+                    <td><%= data.title %></td>
+                    <td><%= data.body %></td>
+                    <td><%= link_to "Show", user_path(data.id) %></td>
+                </tr>
+            <% end %>
+        <% end %>
+
+    </tbody>
+</table>
