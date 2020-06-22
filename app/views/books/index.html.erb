@@ -43,23 +43,9 @@
 						</td>
 						<td><%= link_to book.title, book, class: "book_#{book.id}" %></td>
 						<td><%= book.body %></td>
-						<span class="like">
-							<% if book.favorited_by?(current_user) %>
-								<td>
-									<%= link_to book_favorites_path(book.id), method: :delete do %>
-										<%= content_tag :span, "", class: "glyphicon glyphicon-heart" %>
-										<%= book.favorites.count %>
-									<% end %>
-								</td>
-							<% else %>
-								<td>
-									<%= link_to book_favorites_path(book.id), method: :post do %>
-										<%= content_tag :span, "", class: "glyphicon glyphicon-heart-empty" %>
-										<%= book.favorites.count %>
-									<% end %>
-								</td>
-							<% end %>
-						</span>
+						<td id="favorites_buttons_<%= book.id %>">
+							<%= render 'favorites/favorite', book: book %>
+						</td>
 						<span class="comment">
 							<td>
 								<%= link_to "コメント数: #{book.book_comments.count}", book_path(book.id) %>
